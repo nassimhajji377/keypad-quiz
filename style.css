@@ -43,12 +43,32 @@ body {
     justify-content: center;
 }
 
+/* الإطار اللي يقص الحركة بين المرحلتين */
+.stage-viewport {
+    width: 100%;
+    max-width: 360px;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+/* الحاوية اللي فيها المرحلتين جنب بعض، وبتتحرك (push) */
+.stages {
+    display: flex;
+    width: 200%;
+    transition: transform 0.5s ease;
+}
+
+/* لما نوصل للمرحلة الثانية، ندفع الحاوية لليسار (لأن الاتجاه rtl، الدفع بيصير بالسالب) */
+.stages.stage2 {
+    transform: translateX(-50%);
+}
+
 .keypad {
     background: #ffffff;
     border-radius: 24px;
     padding: 40px 32px;
-    width: 100%;
-    max-width: 360px;
+    width: 50%;
+    flex-shrink: 0;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     border: 1px solid #edeff4;
@@ -61,7 +81,7 @@ body {
 }
 
 /* الحقل الحقيقي: مخفي بصرياً لكنه قابل للتركيز */
-#codeInput {
+.codeInput {
     position: absolute;
     opacity: 0;
     width: 1px;
@@ -94,15 +114,10 @@ body {
 }
 
 /* المستطيل الأبيض ينوّر ويتفعّل لما المستخدم يضغط ويفتح الكيبورد */
-#codeInput:focus ~ .code-boxes .code-box {
+.codeInput:focus ~ .code-boxes .code-box {
     background: #ffffff;
     border-color: #6c63ff;
     box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
-}
-
-/* المربع النشط (اللي رح يستقبل الرقم الجاي) يتبرز أكتر */
-#codeInput:focus ~ .code-boxes .code-box:empty:first-of-type {
-    transform: scale(1.05);
 }
 
 .code-boxes:active .code-box {
@@ -110,16 +125,54 @@ body {
 }
 
 /* رسالة النتيجة */
-#message {
+.message {
     min-height: 24px;
     font-size: 1rem;
     font-weight: 600;
 }
 
-.success {
+.message.success {
     color: #2ecc71;
 }
 
-.error {
+.message.error {
     color: #e74c3c;
+}
+
+/* زر الانتقال للمرحلة التالية */
+.next-btn {
+    display: none;
+    margin-top: 18px;
+    padding: 10px 26px;
+    background: #6c63ff;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.next-btn.show {
+    display: inline-block;
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(108, 99, 255, 0.4);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
