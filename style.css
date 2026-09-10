@@ -6,15 +6,12 @@
 
 body {
     min-height: 100vh;
-
-    background:
-        radial-gradient(circle at top, #17132f 0%, #090b10 55%, #050608 100%);
-
+    background: radial-gradient(circle at top, #17132f, #080a0f 60%, #050608);
     color: white;
     font-family: Arial, sans-serif;
 }
 
-/* وضع الـ Keypad في منتصف الشاشة */
+/* اللعبة في وسط الشاشة */
 .game {
     min-height: 100vh;
 
@@ -25,69 +22,62 @@ body {
 
 /* صندوق اللعبة */
 .keypad {
-    width: 360px;
+    width: 420px;
     padding: 35px;
 
-    background: rgba(20, 20, 30, 0.9);
+    background: rgba(15, 15, 23, 0.95);
 
     border: 1px solid #333;
     border-radius: 20px;
 
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-
     text-align: center;
+
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
 }
 
 .keypad h1 {
-    font-size: 30px;
-    margin-bottom: 28px;
+    font-size: 32px;
+    margin-bottom: 30px;
 }
 
-/* مربعات الرقم */
+/* مربعات الأرقام */
 .code-boxes {
     display: flex;
-
     justify-content: center;
     align-items: center;
-
-    gap: 14px;
+    gap: 15px;
 }
 
-/* كل مربع */
+/* المربع الواحد */
 .code-box {
-    width: 75px;
-    height: 85px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 80px;
+    height: 90px;
 
     background: #08090d;
 
-    border: 2px solid #4a4a5a;
+    border: 3px solid #555;
     border-radius: 12px;
 
-    font-size: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 50px;
     font-weight: bold;
 
-    box-shadow:
-        inset 0 0 15px rgba(0, 0, 0, 0.7),
-        0 0 10px rgba(0, 0, 0, 0.3);
-
-    transition: 0.2s;
+    color: white;
 }
 
-/* عند وجود رقم داخل المربع */
+/* عند كتابة رقم */
 .code-box:not(:empty) {
-    border-color: #777;
-    transform: scale(1.03);
+    border-color: #8b6cff;
+    box-shadow: 0 0 15px rgba(139, 108, 255, 0.4);
 }
 
 /* الرسالة */
 #message {
-    min-height: 30px;
-
     margin-top: 25px;
+    min-height: 30px;
 
     font-size: 20px;
     font-weight: bold;
@@ -101,14 +91,14 @@ body {
     color: #ff5c5c;
 }
 
-/* زر فتح اللغز - أسفل اليمين */
+/* زر فتح اللغز أسفل اليمين */
 .puzzle-link {
     position: fixed;
 
     right: 25px;
     bottom: 25px;
 
-    padding: 13px 20px;
+    padding: 14px 22px;
 
     background: #1d1d27;
     color: white;
@@ -125,6 +115,5 @@ body {
 
 .puzzle-link:hover {
     background: #30303d;
-
     transform: scale(1.05);
 }
