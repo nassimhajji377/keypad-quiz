@@ -1,123 +1,125 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اللغز الأول</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-<body>
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    background: #f2f4f8;
+    padding: 20px;
+}
 
-    <!-- زر فتح اللغز -->
-    <a
-        class="puzzle-link"
-        href="https://example.com"
-        target="_blank"
-        rel="noopener noreferrer"
-    >
-        📖 فتح اللغز
-    </a>
+/* زر فتح اللغز */
+.puzzle-link {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #ffffff;
+    color: #2b2d42;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e4e7ee;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
 
-    <main class="game">
+.puzzle-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
 
-        <div class="keypad">
+/* بطاقة اللعبة */
+.game {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
-            <h1>🔐 أدخل الرمز</h1>
+.keypad {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 32px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid #edeff4;
+}
 
-            <!-- حقل مخفي يفتح كيبورد الهاتف -->
-            <input
-                id="codeInput"
-                type="tel"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                maxlength="3"
-                autocomplete="off"
-                aria-label="أدخل الرمز"
-            >
+.keypad h1 {
+    font-size: 1.3rem;
+    color: #2b2d42;
+    margin-bottom: 28px;
+}
 
-            <!-- مربعات الرمز -->
-            <div class="code-boxes" onclick="focusInput()">
+/* الحقل الحقيقي: مخفي بصرياً لكنه قابل للتركيز */
+#codeInput {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
 
-                <div class="code-box" id="box1"></div>
-                <div class="code-box" id="box2"></div>
-                <div class="code-box" id="box3"></div>
+/* مربعات الرمز */
+.code-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
 
-            </div>
+.code-box {
+    width: 56px;
+    height: 64px;
+    background: #f5f6fa;
+    border: 2px solid #dfe3ec;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2b2d42;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
 
-            <p id="message"></p>
+/* المستطيل الأبيض ينوّر ويتفعّل لما المستخدم يضغط ويفتح الكيبورد */
+#codeInput:focus ~ .code-boxes .code-box {
+    background: #ffffff;
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+}
 
-        </div>
+/* المربع النشط (اللي رح يستقبل الرقم الجاي) يتبرز أكتر */
+#codeInput:focus ~ .code-boxes .code-box:empty:first-of-type {
+    transform: scale(1.05);
+}
 
-    </main>
+.code-boxes:active .code-box {
+    transform: scale(0.97);
+}
 
-    <script>
+/* رسالة النتيجة */
+#message {
+    min-height: 24px;
+    font-size: 1rem;
+    font-weight: 600;
+}
 
-        const input = document.getElementById("codeInput");
+.success {
+    color: #2ecc71;
+}
 
-        const box1 = document.getElementById("box1");
-        const box2 = document.getElementById("box2");
-        const box3 = document.getElementById("box3");
-
-        const message = document.getElementById("message");
-
-        const correctCode = "241";
-
-        // فتح كيبورد الهاتف
-        function focusInput() {
-            input.focus();
-        }
-
-        // عند كتابة الرقم
-        input.addEventListener("input", function () {
-
-            // أرقام فقط
-            input.value = input.value.replace(/\D/g, "");
-
-            const code = input.value;
-
-            // وضع الأرقام داخل المربعات
-            box1.textContent = code[0] || "";
-            box2.textContent = code[1] || "";
-            box3.textContent = code[2] || "";
-
-            message.textContent = "";
-            message.className = "";
-
-            // عندما يكتب 3 أرقام
-            if (code.length === 3) {
-                checkCode(code);
-            }
-        });
-
-        // فحص الرمز
-        function checkCode(code) {
-
-            if (code === correctCode) {
-
-                message.textContent = "✅ الرمز صحيح!";
-                message.className = "success";
-
-            } else {
-
-                message.textContent = "❌ الرمز خاطئ!";
-                message.className = "error";
-
-                setTimeout(function () {
-
-                    input.value = "";
-
-                    box1.textContent = "";
-                    box2.textContent = "";
-                    box3.textContent = "";
-
-                    message.textContent = "";
-
-                }, 1000);
-            }
-        }
-
-    </script>
-
-</body>
-</html>
+.error {
+    color: #e74c3c;
+}
