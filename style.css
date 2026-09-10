@@ -36,6 +36,17 @@ body {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
+/* لما تكون روابط فتح اللغز داخل بطاقة مرحلة معيّنة */
+.keypad .puzzle-link {
+    display: block;
+    margin: 0 auto 14px;
+    max-width: fit-content;
+}
+
+.keypad .puzzle-link:last-of-type {
+    margin-bottom: 28px;
+}
+
 /* بطاقة اللعبة */
 .game {
     width: 100%;
