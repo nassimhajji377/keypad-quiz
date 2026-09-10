@@ -6,18 +6,23 @@
 
 body {
     min-height: 100vh;
-    background: radial-gradient(circle at top, #17132f, #080a0f 60%, #050608);
+
+    background:
+        radial-gradient(circle at top, #17132f, #080a0f 60%, #050608);
+
     color: white;
     font-family: Arial, sans-serif;
 }
 
-/* اللعبة في وسط الشاشة */
+/* اللعبة في الوسط */
 .game {
     min-height: 100vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    padding: 20px;
 }
 
 /* صندوق اللعبة */
@@ -40,15 +45,18 @@ body {
     margin-bottom: 30px;
 }
 
-/* مربعات الأرقام */
+/* مربعات الرمز */
 .code-boxes {
     display: flex;
+
     justify-content: center;
     align-items: center;
+
     gap: 15px;
+
+    direction: ltr;
 }
 
-/* المربع الواحد */
 .code-box {
     width: 80px;
     height: 90px;
@@ -66,20 +74,78 @@ body {
     font-weight: bold;
 
     color: white;
+
+    transition: 0.2s;
 }
 
-/* عند كتابة رقم */
 .code-box:not(:empty) {
     border-color: #8b6cff;
-    box-shadow: 0 0 15px rgba(139, 108, 255, 0.4);
+
+    box-shadow:
+        0 0 15px rgba(139, 108, 255, 0.4);
+}
+
+/* لوحة الأرقام */
+.number-pad {
+    margin-top: 25px;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 10px;
+
+    direction: ltr;
+}
+
+.number-pad button {
+    height: 60px;
+
+    background: #24242e;
+
+    color: white;
+
+    border: 1px solid #3b3b48;
+
+    border-radius: 10px;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.15s;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+.number-pad button:hover {
+    background: #333340;
+    transform: scale(1.04);
+}
+
+.number-pad button:active {
+    transform: scale(0.94);
+}
+
+/* زر الحذف */
+.number-pad .clear {
+    background: #3a2020;
+}
+
+/* زر التأكيد */
+.number-pad .enter {
+    background: #203a27;
 }
 
 /* الرسالة */
 #message {
-    margin-top: 25px;
     min-height: 30px;
 
+    margin-top: 20px;
+
     font-size: 20px;
+
     font-weight: bold;
 }
 
@@ -91,7 +157,7 @@ body {
     color: #ff5c5c;
 }
 
-/* زر فتح اللغز أسفل اليمين */
+/* زر فتح اللغز في أقصى اليمين بالأسفل */
 .puzzle-link {
     position: fixed;
 
@@ -101,19 +167,68 @@ body {
     padding: 14px 22px;
 
     background: #1d1d27;
+
     color: white;
 
     text-decoration: none;
 
     border: 1px solid #444;
+
     border-radius: 10px;
 
     font-size: 17px;
 
     transition: 0.2s;
+
+    z-index: 10;
 }
 
 .puzzle-link:hover {
     background: #30303d;
+
     transform: scale(1.05);
+}
+
+/* 📱 الهاتف */
+@media (max-width: 600px) {
+
+    .game {
+        padding: 15px;
+    }
+
+    .keypad {
+        width: 100%;
+        max-width: 350px;
+
+        padding: 25px 20px;
+    }
+
+    .keypad h1 {
+        font-size: 27px;
+    }
+
+    .code-box {
+        width: 70px;
+        height: 78px;
+
+        font-size: 42px;
+    }
+
+    .number-pad {
+        gap: 8px;
+    }
+
+    .number-pad button {
+        height: 58px;
+        font-size: 22px;
+    }
+
+    .puzzle-link {
+        right: 15px;
+        bottom: 15px;
+
+        padding: 11px 15px;
+
+        font-size: 15px;
+    }
 }
