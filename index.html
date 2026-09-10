@@ -12,7 +12,7 @@
     <!-- زر فتح اللغز -->
     <a
         class="puzzle-link"
-        href="https://1drv.ms/w/c/6f9d740353fcf017/IQB0Bhgf3OF_Tp67OiBxKCyvAYrgm_EbGKasy3Ml0vCAZUI?e=zHgfkg"
+        href="https://example.com"
         target="_blank"
         rel="noopener noreferrer"
     >
@@ -32,6 +32,27 @@
                 <div class="code-box" id="box3"></div>
             </div>
 
+            <!-- لوحة الأرقام للهاتف -->
+            <div class="number-pad">
+
+                <button onclick="pressKey('1')">1</button>
+                <button onclick="pressKey('2')">2</button>
+                <button onclick="pressKey('3')">3</button>
+
+                <button onclick="pressKey('4')">4</button>
+                <button onclick="pressKey('5')">5</button>
+                <button onclick="pressKey('6')">6</button>
+
+                <button onclick="pressKey('7')">7</button>
+                <button onclick="pressKey('8')">8</button>
+                <button onclick="pressKey('9')">9</button>
+
+                <button class="clear" onclick="clearCode()">⌫</button>
+                <button onclick="pressKey('0')">0</button>
+                <button class="enter" onclick="checkCode()">✓</button>
+
+            </div>
+
             <p id="message"></p>
 
         </div>
@@ -40,39 +61,22 @@
 
     <script>
         let code = "";
-        const correctCode = "142";
+        const correctCode = "241";
 
-        document.addEventListener("keydown", function(event) {
+        // عند الضغط على أرقام لوحة الهاتف
+        function pressKey(number) {
 
-            // السماح بالأرقام فقط
-            if (/^[0-9]$/.test(event.key)) {
-
-                if (code.length < 3) {
-                    code += event.key;
-                    updateBoxes();
-                }
-
-                // فحص الرمز بعد كتابة 3 أرقام
-                if (code.length === 3) {
-                    checkCode();
-                }
-            }
-
-            // زر Backspace لحذف آخر رقم
-            if (event.key === "Backspace") {
-                code = code.slice(0, -1);
+            if (code.length < 3) {
+                code += number;
                 updateBoxes();
-                document.getElementById("message").textContent = "";
             }
 
-            // زر Escape لمسح الرقم بالكامل
-            if (event.key === "Escape") {
-                code = "";
-                updateBoxes();
-                document.getElementById("message").textContent = "";
+            if (code.length === 3) {
+                checkCode();
             }
-        });
+        }
 
+        // تحديث المربعات
         function updateBoxes() {
 
             document.getElementById("box1").textContent = code[0] || "";
@@ -80,6 +84,17 @@
             document.getElementById("box3").textContent = code[2] || "";
         }
 
+        // حذف آخر رقم
+        function clearCode() {
+
+            code = code.slice(0, -1);
+
+            updateBoxes();
+
+            document.getElementById("message").textContent = "";
+        }
+
+        // التحقق من الرمز
         function checkCode() {
 
             const message = document.getElementById("message");
@@ -89,18 +104,43 @@
                 message.textContent = "✅ الرمز صحيح!";
                 message.className = "success";
 
-            } else {
+            } else if (code.length === 3) {
 
                 message.textContent = "❌ الرمز خاطئ!";
                 message.className = "error";
 
                 setTimeout(() => {
+
                     code = "";
                     updateBoxes();
                     message.textContent = "";
+
                 }, 1000);
             }
         }
+
+        // كيبورد الكمبيوتر
+        document.addEventListener("keydown", function(event) {
+
+            if (/^[0-9]$/.test(event.key)) {
+                pressKey(event.key);
+            }
+
+            if (event.key === "Backspace") {
+                clearCode();
+            }
+
+            if (event.key === "Enter") {
+                checkCode();
+            }
+
+            if (event.key === "Escape") {
+                code = "";
+                updateBoxes();
+                document.getElementById("message").textContent = "";
+            }
+
+        });
     </script>
 
 </body>
