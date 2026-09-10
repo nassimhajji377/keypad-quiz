@@ -38,7 +38,7 @@
 
                     <p class="message"></p>
 
-                    <button class="next-btn" type="button">التالي ◀</button>
+                    <button class="next-btn" type="button" data-target="stage2">التالي ◀</button>
 
                 </section>
 
@@ -84,6 +84,15 @@
 
                     <p class="message"></p>
 
+                    <button class="next-btn" type="button" data-target="stage3">التالي ◀</button>
+
+                </section>
+
+                <!-- المرحلة الثالثة -->
+                <section class="keypad" id="stage3">
+
+                    <div class="coming-soon">Coming Soon</div>
+
                 </section>
 
             </div>
@@ -99,9 +108,15 @@
         // تجهيز كل مرحلة (بحث عن عناصرها وربط الأحداث)
         function setupStage(stageEl) {
 
+            const input = stageEl.querySelector(".codeInput");
+
+            // مرحلة بدون كود (متل مرحلة "Coming Soon") ما إلها منطق تفاعلي
+            if (!input) {
+                return;
+            }
+
             const correctCode = stageEl.dataset.code;
 
-            const input = stageEl.querySelector(".codeInput");
             const boxes = stageEl.querySelectorAll(".code-box");
             const message = stageEl.querySelector(".message");
             const nextBtn = stageEl.querySelector(".next-btn");
@@ -163,13 +178,18 @@
             // زر الانتقال للمرحلة التالية (transition push)
             if (nextBtn) {
                 nextBtn.addEventListener("click", function () {
-                    stagesEl.classList.add("stage2");
 
-                    // تركيز حقل المرحلة الثانية بعد انتهاء الحركة
+                    const target = nextBtn.dataset.target;
+
+                    stagesEl.className = "stages " + target;
+
+                    // تركيز حقل المرحلة الجاية إذا كانت تحتوي على كود
                     setTimeout(function () {
-                        const nextStage = document.getElementById("stage2");
+                        const nextStage = document.getElementById(target);
                         const nextInput = nextStage.querySelector(".codeInput");
-                        nextInput.focus();
+                        if (nextInput) {
+                            nextInput.focus();
+                        }
                     }, 500);
                 });
             }
