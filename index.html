@@ -1,0 +1,98 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اللغز الأول</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- زر فتح صفحة اللغز -->
+    <a
+        class="puzzle-link"
+        href="https://example.com"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        📖 فتح اللغز
+    </a>
+
+    <!-- Keypad -->
+    <main class="game">
+        <div class="keypad">
+
+            <h1>🔐 أدخل الرمز</h1>
+
+            <div id="display" class="display">_ _ _</div>
+
+            <div class="keys">
+                <button onclick="pressKey('1')">1</button>
+                <button onclick="pressKey('2')">2</button>
+                <button onclick="pressKey('3')">3</button>
+
+                <button onclick="pressKey('4')">4</button>
+                <button onclick="pressKey('5')">5</button>
+                <button onclick="pressKey('6')">6</button>
+
+                <button onclick="pressKey('7')">7</button>
+                <button onclick="pressKey('8')">8</button>
+                <button onclick="pressKey('9')">9</button>
+
+                <button class="clear" onclick="clearCode()">C</button>
+                <button onclick="pressKey('0')">0</button>
+                <button class="enter" onclick="checkCode()">✓</button>
+            </div>
+
+            <p id="message"></p>
+
+        </div>
+    </main>
+
+    <script>
+        let code = "";
+        const correctCode = "241";
+
+        function pressKey(number) {
+            if (code.length < 3) {
+                code += number;
+                updateDisplay();
+            }
+        }
+
+        function clearCode() {
+            code = "";
+            updateDisplay();
+            document.getElementById("message").textContent = "";
+        }
+
+        function updateDisplay() {
+            let result = "";
+
+            for (let i = 0; i < 3; i++) {
+                result += i < code.length ? "● " : "_ ";
+            }
+
+            document.getElementById("display").textContent = result.trim();
+        }
+
+        function checkCode() {
+            const message = document.getElementById("message");
+
+            if (code === correctCode) {
+                message.textContent = "✅ صحيح! تم حل اللغز الأول!";
+                message.className = "success";
+            } else {
+                message.textContent = "❌ الرمز خاطئ!";
+                message.className = "error";
+
+                code = "";
+                updateDisplay();
+            }
+        }
+    </script>
+
+</body>
+</html>
+```

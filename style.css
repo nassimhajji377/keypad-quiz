@@ -1,0 +1,138 @@
+```css
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: #0b0b0f;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* زر اللغز أعلى اليمين */
+.puzzle-link {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+
+    padding: 12px 18px;
+    background: #1d1d26;
+    color: white;
+
+    text-decoration: none;
+    border: 1px solid #444;
+    border-radius: 10px;
+
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.puzzle-link:hover {
+    background: #292936;
+    transform: scale(1.05);
+}
+
+/* وضع الـ Keypad في الوسط */
+.game {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* صندوق الـ Keypad */
+.keypad {
+    width: 330px;
+    padding: 28px;
+
+    background: #15151c;
+    border: 1px solid #333;
+    border-radius: 20px;
+
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+
+    text-align: center;
+}
+
+.keypad h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* شاشة الأرقام */
+.display {
+    height: 55px;
+    margin-bottom: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #08080b;
+    border: 1px solid #333;
+    border-radius: 10px;
+
+    font-size: 28px;
+    letter-spacing: 8px;
+}
+
+/* أزرار الأرقام */
+.keys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.keys button {
+    height: 60px;
+
+    background: #24242e;
+    color: white;
+
+    border: 1px solid #3b3b48;
+    border-radius: 10px;
+
+    font-size: 22px;
+    cursor: pointer;
+
+    transition: 0.15s;
+}
+
+.keys button:hover {
+    background: #333340;
+    transform: scale(1.04);
+}
+
+.keys button:active {
+    transform: scale(0.96);
+}
+
+/* زر المسح */
+.keys .clear {
+    background: #3a2020;
+}
+
+/* زر التأكيد */
+.keys .enter {
+    background: #203a27;
+}
+
+/* الرسائل */
+#message {
+    min-height: 25px;
+    margin-top: 18px;
+    font-size: 17px;
+}
+
+.success {
+    color: #55e878;
+}
+
+.error {
+    color: #ff5c5c;
+}
+```
