@@ -4,148 +4,216 @@
     padding: 0;
 }
 
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
 body {
     min-height: 100vh;
 
     background:
-        radial-gradient(circle at top, #17132f, #080a0f 60%, #050608);
+        radial-gradient(
+            circle at 50% 0%,
+            #1b1538 0%,
+            #0d0d16 45%,
+            #050609 100%
+        );
 
-    color: white;
+    color: #ffffff;
     font-family: Arial, sans-serif;
+
+    overflow-x: hidden;
 }
 
-/* اللعبة في الوسط */
+/* =========================
+   اللعبة
+========================= */
+
 .game {
+    width: 100%;
     min-height: 100vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    padding: 20px;
+    padding: 80px 15px 100px;
 }
 
-/* صندوق اللعبة */
+/* =========================
+   صندوق الكيباد
+========================= */
+
 .keypad {
-    width: 420px;
-    padding: 35px;
+    width: 400px;
+    max-width: 100%;
 
-    background: rgba(15, 15, 23, 0.95);
+    padding: 32px 28px;
 
-    border: 1px solid #333;
+    background: rgba(18, 18, 28, 0.96);
+
+    border: 1px solid #353545;
     border-radius: 20px;
 
     text-align: center;
 
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.7);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.55),
+        0 0 30px rgba(80, 60, 160, 0.08);
 }
 
 .keypad h1 {
+    margin-bottom: 28px;
+
     font-size: 32px;
-    margin-bottom: 30px;
+    font-weight: bold;
 }
 
-/* مربعات الرمز */
-.code-boxes {
-    display: flex;
+/* =========================
+   مربعات الرمز
+========================= */
 
+.code-boxes {
+    width: 100%;
+
+    display: flex;
     justify-content: center;
     align-items: center;
 
-    gap: 15px;
+    gap: 14px;
 
     direction: ltr;
 }
 
 .code-box {
     width: 80px;
-    height: 90px;
-
-    background: #08090d;
-
-    border: 3px solid #555;
-    border-radius: 12px;
+    height: 85px;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    font-size: 50px;
+    background: #07080c;
+
+    border: 2px solid #4a4a58;
+    border-radius: 12px;
+
+    color: #ffffff;
+
+    font-size: 48px;
     font-weight: bold;
 
-    color: white;
+    box-shadow:
+        inset 0 0 15px rgba(0, 0, 0, 0.7);
 
-    transition: 0.2s;
+    transition: 0.15s;
 }
 
 .code-box:not(:empty) {
-    border-color: #8b6cff;
+    border-color: #806cff;
 
     box-shadow:
-        0 0 15px rgba(139, 108, 255, 0.4);
+        0 0 15px rgba(128, 108, 255, 0.25),
+        inset 0 0 15px rgba(0, 0, 0, 0.7);
 }
 
-/* لوحة الأرقام */
+/* =========================
+   لوحة الأرقام
+========================= */
+
 .number-pad {
+    width: 100%;
+
     margin-top: 25px;
 
     display: grid;
 
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 
     gap: 10px;
 
     direction: ltr;
 }
 
+/* كل زر */
 .number-pad button {
-    height: 60px;
+    width: 100%;
+    height: 62px;
 
-    background: #24242e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    color: white;
+    padding: 0;
+    margin: 0;
 
-    border: 1px solid #3b3b48;
+    background: #252531;
 
-    border-radius: 10px;
+    color: #ffffff;
 
+    border: 2px solid #3d3d4b;
+    border-radius: 12px;
+
+    font-family: Arial, sans-serif;
     font-size: 24px;
     font-weight: bold;
 
     cursor: pointer;
 
-    transition: 0.15s;
-
+    user-select: none;
+    -webkit-user-select: none;
     -webkit-tap-highlight-color: transparent;
+
+    transition:
+        background 0.15s,
+        transform 0.1s,
+        border-color 0.15s;
 }
 
+/* الكمبيوتر */
 .number-pad button:hover {
-    background: #333340;
-    transform: scale(1.04);
+    background: #333342;
+    border-color: #66667a;
 }
 
+/* عند الضغط */
 .number-pad button:active {
     transform: scale(0.94);
+    background: #3a3a4b;
 }
 
 /* زر الحذف */
 .number-pad .clear {
-    background: #3a2020;
+    background: #382020;
+    border-color: #5b3030;
+}
+
+.number-pad .clear:hover {
+    background: #4a2727;
 }
 
 /* زر التأكيد */
 .number-pad .enter {
-    background: #203a27;
+    background: #203827;
+    border-color: #315b3b;
 }
 
-/* الرسالة */
+.number-pad .enter:hover {
+    background: #294a31;
+}
+
+/* =========================
+   الرسالة
+========================= */
+
 #message {
     min-height: 30px;
 
     margin-top: 20px;
 
     font-size: 20px;
-
     font-weight: bold;
 }
 
@@ -157,78 +225,137 @@ body {
     color: #ff5c5c;
 }
 
-/* زر فتح اللغز في أقصى اليمين بالأسفل */
+/* =========================
+   زر فتح اللغز
+========================= */
+
 .puzzle-link {
     position: fixed;
 
-    right: 25px;
-    bottom: 25px;
+    right: 20px;
+    bottom: 20px;
 
-    padding: 14px 22px;
+    z-index: 100;
 
-    background: #1d1d27;
+    display: block;
 
-    color: white;
+    padding: 13px 18px;
+
+    background: #1d1d29;
+
+    color: #ffffff;
+
+    border: 1px solid #454556;
+    border-radius: 10px;
 
     text-decoration: none;
 
-    border: 1px solid #444;
+    font-size: 16px;
+    font-weight: bold;
 
-    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
 
-    font-size: 17px;
-
-    transition: 0.2s;
-
-    z-index: 10;
+    transition: 0.15s;
 }
 
 .puzzle-link:hover {
-    background: #30303d;
+    background: #303044;
 
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
 
-/* 📱 الهاتف */
+/* =========================
+   الهاتف
+========================= */
+
 @media (max-width: 600px) {
 
     .game {
-        padding: 15px;
+        padding: 70px 12px 90px;
     }
 
     .keypad {
         width: 100%;
         max-width: 350px;
 
-        padding: 25px 20px;
+        padding: 25px 18px;
+
+        border-radius: 18px;
     }
 
     .keypad h1 {
         font-size: 27px;
+        margin-bottom: 24px;
+    }
+
+    /* مربعات الرمز في الهاتف */
+    .code-boxes {
+        gap: 10px;
     }
 
     .code-box {
-        width: 70px;
+        width: 72px;
         height: 78px;
 
         font-size: 42px;
     }
 
+    /* أزرار الهاتف */
     .number-pad {
+        margin-top: 22px;
+
+        grid-template-columns: repeat(3, 1fr);
+
         gap: 8px;
     }
 
     .number-pad button {
+        width: 100%;
         height: 58px;
-        font-size: 22px;
+
+        font-size: 23px;
+
+        border-radius: 10px;
     }
 
+    /* زر فتح اللغز */
     .puzzle-link {
-        right: 15px;
-        bottom: 15px;
+        right: 12px;
+        bottom: 12px;
 
-        padding: 11px 15px;
+        padding: 11px 14px;
 
-        font-size: 15px;
+        font-size: 14px;
+    }
+}
+
+/* =========================
+   الهواتف الصغيرة جدًا
+========================= */
+
+@media (max-width: 350px) {
+
+    .keypad {
+        padding: 22px 14px;
+    }
+
+    .code-boxes {
+        gap: 7px;
+    }
+
+    .code-box {
+        width: 65px;
+        height: 72px;
+
+        font-size: 38px;
+    }
+
+    .number-pad {
+        gap: 6px;
+    }
+
+    .number-pad button {
+        height: 54px;
+        font-size: 21px;
     }
 }
