@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -7,9 +6,10 @@
     <title>اللغز الأول</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-    <!-- زر فتح صفحة اللغز -->
+    <!-- زر فتح اللغز -->
     <a
         class="puzzle-link"
         href="https://example.com"
@@ -19,80 +19,89 @@
         📖 فتح اللغز
     </a>
 
-    <!-- Keypad -->
     <main class="game">
+
         <div class="keypad">
 
             <h1>🔐 أدخل الرمز</h1>
 
-            <div id="display" class="display">_ _ _</div>
-
-            <div class="keys">
-                <button onclick="pressKey('1')">1</button>
-                <button onclick="pressKey('2')">2</button>
-                <button onclick="pressKey('3')">3</button>
-
-                <button onclick="pressKey('4')">4</button>
-                <button onclick="pressKey('5')">5</button>
-                <button onclick="pressKey('6')">6</button>
-
-                <button onclick="pressKey('7')">7</button>
-                <button onclick="pressKey('8')">8</button>
-                <button onclick="pressKey('9')">9</button>
-
-                <button class="clear" onclick="clearCode()">C</button>
-                <button onclick="pressKey('0')">0</button>
-                <button class="enter" onclick="checkCode()">✓</button>
+            <!-- مربعات الرقم -->
+            <div class="code-boxes">
+                <div class="code-box" id="box1"></div>
+                <div class="code-box" id="box2"></div>
+                <div class="code-box" id="box3"></div>
             </div>
 
             <p id="message"></p>
 
         </div>
+
     </main>
 
     <script>
         let code = "";
         const correctCode = "241";
 
-        function pressKey(number) {
-            if (code.length < 3) {
-                code += number;
-                updateDisplay();
-            }
-        }
+        document.addEventListener("keydown", function(event) {
 
-        function clearCode() {
-            code = "";
-            updateDisplay();
-            document.getElementById("message").textContent = "";
-        }
+            // السماح بالأرقام فقط
+            if (/^[0-9]$/.test(event.key)) {
 
-        function updateDisplay() {
-            let result = "";
+                if (code.length < 3) {
+                    code += event.key;
+                    updateBoxes();
+                }
 
-            for (let i = 0; i < 3; i++) {
-                result += i < code.length ? "● " : "_ ";
+                // فحص الرمز بعد كتابة 3 أرقام
+                if (code.length === 3) {
+                    checkCode();
+                }
             }
 
-            document.getElementById("display").textContent = result.trim();
+            // زر Backspace لحذف آخر رقم
+            if (event.key === "Backspace") {
+                code = code.slice(0, -1);
+                updateBoxes();
+                document.getElementById("message").textContent = "";
+            }
+
+            // زر Escape لمسح الرقم بالكامل
+            if (event.key === "Escape") {
+                code = "";
+                updateBoxes();
+                document.getElementById("message").textContent = "";
+            }
+        });
+
+        function updateBoxes() {
+
+            document.getElementById("box1").textContent = code[0] || "";
+            document.getElementById("box2").textContent = code[1] || "";
+            document.getElementById("box3").textContent = code[2] || "";
         }
 
         function checkCode() {
+
             const message = document.getElementById("message");
 
             if (code === correctCode) {
-                message.textContent = "✅ صحيح! تم حل اللغز الأول!";
+
+                message.textContent = "✅ الرمز صحيح!";
                 message.className = "success";
+
             } else {
+
                 message.textContent = "❌ الرمز خاطئ!";
                 message.className = "error";
 
-                code = "";
-                updateDisplay();
+                setTimeout(() => {
+                    code = "";
+                    updateBoxes();
+                    message.textContent = "";
+                }, 1000);
             }
         }
     </script>
 
 </body>
 </html>
-```
