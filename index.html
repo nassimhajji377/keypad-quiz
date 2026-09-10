@@ -12,7 +12,7 @@
     <!-- زر فتح اللغز -->
     <a
         class="puzzle-link"
-        href="https://1drv.ms/w/c/6f9d740353fcf017/IQB0Bhgf3OF_Tp67OiBxKCyvAYrgm_EbGKasy3Ml0vCAZUI?e=zHgfkg"
+        href="https://1drv.ms/w/c/6f9d740353fcf017/IQBNKvzrElA8QqiRdJKUZk8oATNtF5weZcZDwn2XazkfvcU?e=KiZip9"
         target="_blank"
         rel="noopener noreferrer"
     >
@@ -21,31 +21,63 @@
 
     <main class="game">
 
-        <div class="keypad">
+        <div class="stage-viewport">
 
-            <h1>🔐 أدخل الرمز</h1>
+            <div class="stages" id="stages">
 
-            <!-- حقل مخفي يفتح كيبورد الهاتف -->
-            <input
-                id="codeInput"
-                type="tel"
-                inputmode="numeric"
-                pattern="[0-9]*"
-                maxlength="3"
-                autocomplete="off"
-                aria-label="أدخل الرمز"
-            >
+                <!-- المرحلة الأولى -->
+                <section class="keypad" id="stage1" data-code="241">
 
-            <!-- مربعات الرمز -->
-            <div class="code-boxes" onclick="focusInput()">
+                    <h1>🔐 أدخل الرمز</h1>
 
-                <div class="code-box" id="box1"></div>
-                <div class="code-box" id="box2"></div>
-                <div class="code-box" id="box3"></div>
+                    <input
+                        class="codeInput"
+                        type="tel"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        maxlength="3"
+                        autocomplete="off"
+                        aria-label="أدخل الرمز"
+                    >
+
+                    <div class="code-boxes">
+                        <div class="code-box"></div>
+                        <div class="code-box"></div>
+                        <div class="code-box"></div>
+                    </div>
+
+                    <p class="message"></p>
+
+                    <button class="next-btn" type="button">التالي ◀</button>
+
+                </section>
+
+                <!-- المرحلة الثانية -->
+                <section class="keypad" id="stage2" data-code="598">
+
+                    <h1>🔐 أدخل الرمز</h1>
+
+                    <input
+                        class="codeInput"
+                        type="tel"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        maxlength="3"
+                        autocomplete="off"
+                        aria-label="أدخل الرمز"
+                    >
+
+                    <div class="code-boxes">
+                        <div class="code-box"></div>
+                        <div class="code-box"></div>
+                        <div class="code-box"></div>
+                    </div>
+
+                    <p class="message"></p>
+
+                </section>
 
             </div>
-
-            <p id="message"></p>
 
         </div>
 
@@ -53,69 +85,88 @@
 
     <script>
 
-        const input = document.getElementById("codeInput");
+        const stagesEl = document.getElementById("stages");
 
-        const box1 = document.getElementById("box1");
-        const box2 = document.getElementById("box2");
-        const box3 = document.getElementById("box3");
+        // تجهيز كل مرحلة (بحث عن عناصرها وربط الأحداث)
+        function setupStage(stageEl) {
 
-        const message = document.getElementById("message");
+            const correctCode = stageEl.dataset.code;
 
-        const correctCode = "142";
+            const input = stageEl.querySelector(".codeInput");
+            const boxes = stageEl.querySelectorAll(".code-box");
+            const message = stageEl.querySelector(".message");
+            const nextBtn = stageEl.querySelector(".next-btn");
 
-        // فتح كيبورد الهاتف
-        function focusInput() {
-            input.focus();
+            // فتح كيبورد الهاتف عند الضغط على المربعات
+            stageEl.querySelector(".code-boxes").addEventListener("click", function () {
+                input.focus();
+            });
+
+            input.addEventListener("input", function () {
+
+                // أرقام فقط
+                input.value = input.value.replace(/\D/g, "");
+
+                const code = input.value;
+
+                boxes.forEach(function (box, i) {
+                    box.textContent = code[i] || "";
+                });
+
+                message.textContent = "";
+                message.className = "message";
+
+                if (code.length === 3) {
+                    checkCode(code);
+                }
+            });
+
+            function checkCode(code) {
+
+                if (code === correctCode) {
+
+                    message.textContent = "✅ الرمز صحيح!";
+                    message.className = "message success";
+
+                    // إظهار زر التالي إذا كانت هذه المرحلة تحتوي عليه
+                    if (nextBtn) {
+                        nextBtn.classList.add("show");
+                    }
+
+                } else {
+
+                    message.textContent = "❌ الرمز خاطئ!";
+                    message.className = "message error";
+
+                    setTimeout(function () {
+
+                        input.value = "";
+                        boxes.forEach(function (box) {
+                            box.textContent = "";
+                        });
+                        message.textContent = "";
+                        message.className = "message";
+
+                    }, 1000);
+                }
+            }
+
+            // زر الانتقال للمرحلة التالية (transition push)
+            if (nextBtn) {
+                nextBtn.addEventListener("click", function () {
+                    stagesEl.classList.add("stage2");
+
+                    // تركيز حقل المرحلة الثانية بعد انتهاء الحركة
+                    setTimeout(function () {
+                        const nextStage = document.getElementById("stage2");
+                        const nextInput = nextStage.querySelector(".codeInput");
+                        nextInput.focus();
+                    }, 500);
+                });
+            }
         }
 
-        // عند كتابة الرقم
-        input.addEventListener("input", function () {
-
-            // أرقام فقط
-            input.value = input.value.replace(/\D/g, "");
-
-            const code = input.value;
-
-            // وضع الأرقام داخل المربعات
-            box1.textContent = code[0] || "";
-            box2.textContent = code[1] || "";
-            box3.textContent = code[2] || "";
-
-            message.textContent = "";
-            message.className = "";
-
-            // عندما يكتب 3 أرقام
-            if (code.length === 3) {
-                checkCode(code);
-            }
-        });
-
-        // فحص الرمز
-        function checkCode(code) {
-
-            if (code === correctCode) {
-
-                message.textContent = "✅ الرمز صحيح!";
-                message.className = "success";
-
-            } else {
-
-                message.textContent = "❌ الرمز خاطئ!";
-                message.className = "error";
-
-                setTimeout(function () {
-
-                    input.value = "";
-
-                    box1.textContent = "";
-                    box2.textContent = "";
-                    box3.textContent = "";
-
-                    message.textContent = "";
-
-                }, 1000);
-            }
-        }
+        document.querySelectorAll(".keypad").forEach(setupStage);
 
     </script>
 
